@@ -5,15 +5,35 @@ const http = require('https');
 const { WebhookClient } = require('dialogflow-fulfillment');
 const { Card, Suggestion } = require('dialogflow-fulfillment');
 function dialogController(Dialog) {
-  function post(req, res) {
-    const dialog = new Dialog(req.body);
-    if (!req.body.title) {
-      res.status(400);
-      return res.send('Title is required');
+  function post(request, response) {
+    console.log(`Dialogflow Request headers: ${JSON.stringify(request.headers)}`);
+    // console.log(`Dialogflow Request body: ${JSON.stringify(request.body)}`);
+    console.log('BODY');
+    response.setHeader('Content-Type', 'application/json');
+    try {
+      const { action } = request.body.queryResult;
+      if (action !== 'input.contact') {
+        response.send(buildChatResponse(`I'm sorry, I don't know this${action}`));
+        const agent = new WebhookClient({ request, response });
+        console.log(`Agent is ${JSON.stringify(agent)}`);
+        return;
+      }
+    } catch (error) {
+      response.send( buildChatResponse("Not a Dialog Flow v2 request"));
     }
-    dialog.save();
-    res.status(201);
-    return res.json(dialog);
+  
+    const { parameters } = request.body.queryResult;
+  
+    const enquiryModel = {};
+    enquiryModel.companyId = '3';
+    enquiryModel.personName = parameters['given-name'];
+    enquiryModel.eamilAddress = parameters.email;
+    enquiryModel.contactNumber = parameters['phone-number'];
+    enquiryModel.enquiryType = 2;
+    submitEnquery(enquiryModel, response);
+    response.send(enquiryModel)
+    response.status(201);
+    return response.json(dialog);
   }
   function get(request, response) {
     // const agent = new WebhookClient({ request, response });
