@@ -3,5 +3,6 @@ module.exports = {
     "rules": {
         "comma-dangle": 0
     },
-    "env": {"node": true, "mocha": true}
+    "env": {"node": true, "mocha": true},
+    "extends": "eslint:recommended"
 };
