@@ -4,7 +4,10 @@
 //     agent.add(`I didn't understand`);
 //     agent.add(`I'm sorry, can you try again?`);
 //   }
-
+const {
+  Card,
+  Suggestion
+} = require('dialogflow-fulfillment');
   module.exports = function (agent) {
     console.log('I didnt understand');
     
