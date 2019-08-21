@@ -53,3 +53,5 @@ function submitEnquery(enquiryModel, cloudFnResponse) {
       response.status(201);
       return response.json(dialog);
 }
+
+module.exports = contactUs;
