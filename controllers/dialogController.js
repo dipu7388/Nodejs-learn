@@ -19,14 +19,12 @@ function dialogController(Dialog) {
     console.log('BODY');
     response.setHeader('Content-Type', 'application/json');
     try {
-      // const agent = new WebhookClient({
-      //   request,
-      //   response
-      // });
-      const agent=new Object();
+      const agent = new WebhookClient({
+        request,
+        response
+      });
+      // const agent=new Object();
       let intentMap = new Map();
-      console.log(testAgent,"TEst Agent")
-
       intentMap.set('test', testAgent);
       intentMap.set('lsnetx.contact-us', contactUs);
       // intentMap.set('your intent name here', googleAssistantHandler);
