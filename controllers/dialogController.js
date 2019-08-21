@@ -24,7 +24,7 @@ function dialogController(Dialog) {
         response
       });
       let intentMap = new Map();
-      intentMap.set('test', testAgent);
+      intentMap.set('test', testAgent1);
       intentMap.set('lsnetx.contact-us', contactUs);
       // intentMap.set('your intent name here', googleAssistantHandler);
       agent.handleRequest(intentMap);
@@ -71,7 +71,12 @@ function dialogController(Dialog) {
   };
 }
 
-
+function testAgent1(agent) {
+  console.log('I didnt understand');
+  
+   agent.add(`I didn't understand`);
+   agent.add(`I'm sorry, can you try again?`);
+ }
 
 function submitEnquery(enquiryModel, cloudFnResponse) {
   console.log(`Company enquery Model: ${JSON.stringify(enquiryModel)}`);
