@@ -6,20 +6,29 @@ const { WebhookClient } = require('dialogflow-fulfillment');
 const { Card, Suggestion } = require('dialogflow-fulfillment');
 function dialogController(Dialog) {
   function post(request, response) {
-    console.log(`Dialogflow Request headers: ${JSON.stringify(request.headers)}`);
+    // console.log(`Dialogflow Request headers: ${JSON.stringify(request.headers)}`);
     // console.log(`Dialogflow Request body: ${JSON.stringify(request.body)}`);
     console.log('BODY');
     response.setHeader('Content-Type', 'application/json');
+    // const agent = new WebhookClient({ request, response });
+    const agent = new WebhookClient({ request, response });
+
     try {
       const { action } = request.body.queryResult;
       if (action !== 'input.contact') {
         response.send(buildChatResponse(`I'm sorry, I don't know this${action}`));
-        const agent = new WebhookClient({ request, response });
         console.log(`Agent is ${JSON.stringify(agent)}`);
         return;
+      }else{
+      let x= new Suggestion('my suggestions');
+      response.send( agent.response(x));
       }
     } catch (error) {
-      response.send( buildChatResponse("Not a Dialog Flow v2 request"));
+
+      let x= new Suggestion('my suggestions');
+      // response.send( buildChatResponse("Not a Dialog Flow v2 request"+ JSON.stringify(x)));
+      response.send( agent.response(x));
+
     }
   
     const { parameters } = request.body.queryResult;
@@ -36,67 +45,29 @@ function dialogController(Dialog) {
     return response.json(dialog);
   }
   function get(request, response) {
-    // const agent = new WebhookClient({ request, response });
+    const agent = new WebhookClient({ request, response });
     console.log(`Dialogflow Request headers: ${JSON.stringify(request.headers)}`);
     console.log(`Dialogflow Request body: ${JSON.stringify(request.body)}`);
     // console.log(`Agent is ${JSON.stringify(agent)}`)
     console.log('BODY');
     const { action } = request.body.queryResult;
+    agent.action=action;
     response.setHeader('Content-Type', 'application/json');
-    if (action !== 'input.contact') {
-      response.send(buildChatResponse(`I'm sorry, I don't know this${action}`));
+    if (agent.action !== 'input.contact') {
+      response.send(buildChatResponse(`I'm sorry, I don't know this${agent.action}`));
       return;
     }
   
     const { parameters } = request.body.queryResult;
-  
+    agent.parameters=parameters;
     const enquiryModel = {};
     enquiryModel.companyId = '3';
-    enquiryModel.personName = parameters['given-name'];
-    enquiryModel.eamilAddress = parameters.email;
-    enquiryModel.contactNumber = parameters['phone-number'];
+    enquiryModel.personName = agent.parameters['given-name'];
+    enquiryModel.eamilAddress = agent.parameters.email;
+    enquiryModel.contactNumber = agent.parameters['phone-number'];
     enquiryModel.enquiryType = 2;
     submitEnquery(enquiryModel, response);
     response.send(enquiryModel)
-
-    // const options = {
-    //   method: 'POST',
-    //   url: 'https://service.lsnetx.com/add/enquiry',
-    //   headers:
-    //   {
-    //     'cache-control': 'no-cache',
-    //     Connection: 'keep-alive',
-    //     'Accept-Encoding': 'gzip, deflate',
-    //     Host: 'service.lsnetx.com',
-    //     'Cache-Control': 'no-cache',
-    //     Accept: '*/*',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body:
-    //   {
-    //     companyId: '3',
-    //     contactNumber: 9898989898,
-    //     emailAddress: 'aaaa7388@gmail.com',
-    //     enquiryType: 3,
-    //     feedback: 'hiii this',
-    //     personName: 'TEst'
-    //   },
-    //   json: true
-    // };
-    // // eslint-disable-next-line consistent-return
-    // request(options, (error, response, body) => {
-    //   if (error) {
-    //     return res.send(error);
-    //   }
-    //   console.log(JSON.stringify(response));
-    //   res.send(JSON.stringify(body));
-    // });
-    // // Dialog.find(query, (err, dialogs) => {
-    // //   if (err) {
-    // //     return res.send(err);
-    // //   }
-    // //   return res.json(dialogs);
-    // // });
   }
   return { post, get };
 }
