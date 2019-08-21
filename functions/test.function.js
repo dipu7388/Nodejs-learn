@@ -26,6 +26,8 @@ const {
     agent.add(new Suggestion(`Suggestion`));
     agent.setContext({ name: 'weather', lifespan: 2, parameters: { city: 'Rome' }});
     let conv = agent.conv(); // Get Actions on Google library conv instance
-    conv.ask('Hello from the Actions on Google client library!') // Use Actions on Google library
-    agent.add(conv); // Add Actions on Google library responses to your agent's response
+    if(conv){
+      conv.ask('Hello from the Actions on Google client library!') // Use Actions on Google library
+      agent.add(conv); // Add Actions on Google library responses to your agent's response
+    }
    };
