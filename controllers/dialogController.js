@@ -5,7 +5,7 @@ const http = require('https');
 const {
   WebhookClient
 } = require('dialogflow-fulfillment');
-const {testAgent }= require("../functions/test.function");
+const testAgent = require("../functions/test.function");
 const {contactUs} = require("../functions/contactus");
 const {
   Card,
@@ -19,16 +19,20 @@ function dialogController(Dialog) {
     console.log('BODY');
     response.setHeader('Content-Type', 'application/json');
     try {
-      const agent = new WebhookClient({
-        request,
-        response
-      });
+      // const agent = new WebhookClient({
+      //   request,
+      //   response
+      // });
+      const agent=new Object();
       let intentMap = new Map();
-      intentMap.set('test', testAgent1);
+      console.log(testAgent,"TEst Agent")
+
+      intentMap.set('test', testAgent);
       intentMap.set('lsnetx.contact-us', contactUs);
       // intentMap.set('your intent name here', googleAssistantHandler);
       agent.handleRequest(intentMap);
     } catch (error) {
+      console.log(testAgent,"TEst Agent");
       response.send(buildChatResponse(`I'm sorry, I don't know this ${error}`));
     }
   }
