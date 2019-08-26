@@ -4,7 +4,7 @@ const {
     Suggestion,
     Image
   } = require('dialogflow-fulfillment');
-  const {initFun}= require("./initialize")
+  const initFun= require("./initialize")
     module.exports = function (agent) {
       agent.add("Hi there");
       agent.add("Welcome to LsnetX");
