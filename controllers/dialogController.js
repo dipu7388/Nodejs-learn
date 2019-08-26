@@ -30,12 +30,13 @@ function dialogController(Dialog) {
       intentMap.set('test', testAgent);
       intentMap.set('lsnetx.contact-us', contactUs);
       intentMap.set('initialize',initializeFun);
-      intentMap.set('lsnetx.welcome', welcomeFun);
+      intentMap.set('welcome', welcomeFun);
       // intentMap.set('', fallBackFu);
       // intentMap.set('your intent name here', googleAssistantHandler);
       agent.handleRequest(intentMap);
     } catch (error) {
-
+      console.log("ERROR", error);
+      
       let req={
    
     "responseId": "336069a5-2b5a-4ab2-b4cf-972781107632-5e314962",
