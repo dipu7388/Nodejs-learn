@@ -12,7 +12,7 @@ mongoose.Promise = global.Promise;
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || 'localhost';
 if(process.argv.length < 4){
-  throw Error('Please enter deployment ip:port as well as deployment url')
+ console.warn(" throw Error('Please enter deployment ip:port as well as deployment url')");
 }
 var url = process.argv[2] || '127.0.0.1:8080'
 process.env.url = url
@@ -37,9 +37,16 @@ app.get('/', (req, res) => {
   res.send('Welcome to my Nodemon API!');
 });
 
-app.listen(+parts[1], parts[0], () => {
+
+if(process.argv.length < 4){
+  app.listen(port, host, () => {
   console.log(`Running on port ${host+':'+port}`);
 });
+}else{
+  app.listen(+parts[1], parts[0], () => {
+    console.log(`Running on port ${host+':'+port}`);
+  });
+}
 // app.listen(port, host, () => {
 //   console.log(`Running on port ${host+':'+port}`);
 // });

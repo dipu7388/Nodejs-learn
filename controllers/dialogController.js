@@ -8,6 +8,7 @@ const {
 const testAgent = require("../functions/test.function");
 const {contactUs} = require("../functions/contactus");
 const {initializeFun} = require("../functions/initialize");
+const {welcomeFun} = require("../functions/welcome");
 const {
   Card,
   Suggestion
@@ -29,6 +30,7 @@ function dialogController(Dialog) {
       intentMap.set('test', testAgent);
       intentMap.set('lsnetx.contact-us', contactUs);
       intentMap.set('initialize',initializeFun);
+      intentMap.set('lsnetx.welcome', welcomeFun);
       // intentMap.set('your intent name here', googleAssistantHandler);
       agent.handleRequest(intentMap);
     } catch (error) {
