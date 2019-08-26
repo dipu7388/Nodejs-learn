@@ -5,14 +5,15 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint app.js",
-    "start": "nodemon app.js",
+    "start": "nodemon app.js   192.200.1.243:4000 192.200.1.243:4000",
     "test": "mocha tests/**/*Tests.js"
-  },
+    },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "actions-on-google": "^2.11.0",
     "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "dialogflow-fulfillment": "^0.6.1",
     "express": "^4.16.4",
     "mongoose": "^5.3.10",
@@ -35,7 +36,8 @@
     "delay": "2500",
     "env": {
       "NODE_ENV": "development",
-      "PORT": 4000
+      "PORT": 4000,
+      "HOST": "192.200.1.243"
     }
   }
 }
