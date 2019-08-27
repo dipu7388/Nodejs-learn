@@ -8,6 +8,7 @@ const app = express();
 // const db = mongoose.connect('mongodb://localhost/bookAPI');
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
+process.env.DEBUG = 'dialogflow:debug';
 // mongoose.connect(config.dbUrl);
 const port = process.env.PORT || 3000;
 let hostAvl=false;
