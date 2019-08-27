@@ -39,9 +39,6 @@ function submitEnquery(enquiryModel, cloudFnResponse) {
 
 
  function contactUs(agent){
-    // const {
-    //     parameters
-    //   } = agent.body.queryResult;
       const enquiryModel = {};
       enquiryModel.companyId = '3';
       enquiryModel.personName = agent.parameters['given-name'];
@@ -49,8 +46,8 @@ function submitEnquery(enquiryModel, cloudFnResponse) {
       enquiryModel.contactNumber = agent.parameters['phone-number'];
       enquiryModel.enquiryType = 2;
       submitEnquery(enquiryModel, agent.response);
-      response.send(enquiryModel)
-      response.status(201);
+      agent.response.send(enquiryModel)
+      agent.response.status(201);
       return response.json(dialog);
 }
 
