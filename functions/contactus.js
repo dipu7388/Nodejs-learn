@@ -48,10 +48,13 @@ function submitEnquery(enquiryModel, cloudFnResponse) {
       enquiryModel.enquiryType = 2;
       agent.add("sdh")
       submitEnquery(enquiryModel, agent).then(data=>{
+        console.log("Resolve Contact US",data );
         if(data){
           agent.add(data);
+          
         }
       }).catch(data=>{
+        console.log("Reject Contact US",data );
         if(data){
           agent.add(data);
         }
