@@ -1,8 +1,8 @@
 // const buildChatResponse=require("../controllers/dialogController");
 const {dialogController } = require('../controllers/dialogController');
 const request = require('request');
+const rp = require('request-promise-native');
 function submitEnquery(enquiryModel, cloudFnResponse) {
-  return new Promise((resolve, reject)=>{
     console.log(`Company enquery Model: ${JSON.stringify(enquiryModel)}`);
   
     const options = {
@@ -20,24 +20,7 @@ function submitEnquery(enquiryModel, cloudFnResponse) {
       body: enquiryModel,
       json: true
     };
-    request(options, (error, response, body) => {
-      if (error) {
-        const chat = `Error${error}`;
-        
-        response.statusMessage=chat;
-        response.statusCode=200;
-        reject(chat);
-        // cloudFnResponse.send(dialogController.buildChatResponse(chat));
-      }
-  
-      console.log(JSON.stringify(response));
-      const chat = 'Your request seccessfully sent to our experts';
-      response.statusMessage=chat;
-      response.statusCode=200;
-      resolve(chat);
-      // cloudFnResponse.send(dialogController.buildChatResponse(chat));
-    });
-  })
+    rp(options);
   }
 
 
@@ -53,7 +36,6 @@ function submitEnquery(enquiryModel, cloudFnResponse) {
         console.log("Resolve Contact US",data );
         if(data){
           agent.add(data);
-          
         }
       }).catch(data=>{
         console.log("Reject Contact US",data );
@@ -61,6 +43,7 @@ function submitEnquery(enquiryModel, cloudFnResponse) {
           agent.add(data);
         }
       });
+      return Promise.resolve(agent);
 }
 
 module.exports = contactUs;
