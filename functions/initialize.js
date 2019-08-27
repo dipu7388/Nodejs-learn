@@ -5,8 +5,8 @@ const {
     Image
   } = require('dialogflow-fulfillment');
     module.exports = function (agent) {
-      agent.add(new Suggestion(`Suggestion 1`));
-      agent.add(new Suggestion(`Suggestion 2`));
-      agent.add(new Suggestion(`Suggestion 3`));
-      agent.add(new Suggestion(`Suggestion 4`));
+      agent.add(new Suggestion(`Would like to know about your services?`));
+      agent.add(new Suggestion(`What Retail Software you Provide?`));
+      agent.add(new Suggestion(`Do you make website for retailers?`));
+      agent.add(new Suggestion(`Other`));
      };
