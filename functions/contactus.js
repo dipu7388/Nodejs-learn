@@ -21,17 +21,19 @@ function submitEnquery(enquiryModel, cloudFnResponse) {
       json: true
     };
     request(options, (error, response, body) => {
-      response.statusMessage=chat;
-      response.statusCode=200;
       if (error) {
         const chat = `Error${error}`;
-      
+        
+        response.statusMessage=chat;
+        response.statusCode=200;
         reject(chat);
         // cloudFnResponse.send(dialogController.buildChatResponse(chat));
       }
   
       console.log(JSON.stringify(response));
       const chat = 'Your request seccessfully sent to our experts';
+      response.statusMessage=chat;
+      response.statusCode=200;
       resolve(chat);
       // cloudFnResponse.send(dialogController.buildChatResponse(chat));
     });
