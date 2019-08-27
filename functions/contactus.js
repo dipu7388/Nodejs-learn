@@ -20,7 +20,7 @@ function submitEnquery(enquiryModel, cloudFnResponse) {
       body: enquiryModel,
       json: true
     };
-    rp(options);
+   return rp(options);
   }
 
 
