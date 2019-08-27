@@ -1,7 +1,7 @@
 // const buildChatResponse=require("../controllers/dialogController");
 const {dialogController } = require('../controllers/dialogController');
 const request = require('request');
-function submitEnquery(enquiryModel, agent) {
+function submitEnquery(enquiryModel, cloudFnResponse) {
   return new Promise((resolve, reject)=>{
     console.log(`Company enquery Model: ${JSON.stringify(enquiryModel)}`);
   
@@ -21,8 +21,11 @@ function submitEnquery(enquiryModel, agent) {
       json: true
     };
     request(options, (error, response, body) => {
+      response.statusMessage=chat;
+      response.statusCode=200;
       if (error) {
         const chat = `Error${error}`;
+      
         reject(chat);
         // cloudFnResponse.send(dialogController.buildChatResponse(chat));
       }
@@ -43,6 +46,7 @@ function submitEnquery(enquiryModel, agent) {
       enquiryModel.eamilAddress = agent.parameters.email;
       enquiryModel.contactNumber = agent.parameters['phone-number'];
       enquiryModel.enquiryType = 2;
+      agent.add("sdh")
       submitEnquery(enquiryModel, agent).then(data=>{
         if(data){
           agent.add(data);
