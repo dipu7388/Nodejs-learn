@@ -2,6 +2,7 @@
 const {dialogController } = require('../controllers/dialogController');
 const request = require('request');
 function submitEnquery(enquiryModel, agent) {
+  return new Promise((resolve, reject)=>{
     console.log(`Company enquery Model: ${JSON.stringify(enquiryModel)}`);
   
     const options = {
@@ -22,15 +23,16 @@ function submitEnquery(enquiryModel, agent) {
     request(options, (error, response, body) => {
       if (error) {
         const chat = `Error${error}`;
-        agent.add(chat);
+        reject(chat);
         // cloudFnResponse.send(dialogController.buildChatResponse(chat));
       }
   
       console.log(JSON.stringify(response));
       const chat = 'Your request seccessfully sent to our experts';
-      agent.add(chat);
+      resolve(chat);
       // cloudFnResponse.send(dialogController.buildChatResponse(chat));
     });
+  })
   }
 
 
@@ -41,9 +43,15 @@ function submitEnquery(enquiryModel, agent) {
       enquiryModel.eamilAddress = agent.parameters.email;
       enquiryModel.contactNumber = agent.parameters['phone-number'];
       enquiryModel.enquiryType = 2;
-      submitEnquery(enquiryModel, agent);
-      agent.add(JSON.stringify(enquiryModel))
-      return agent
+      submitEnquery(enquiryModel, agent).then(data=>{
+        if(data){
+          agent.add(data);
+        }
+      }).catch(data=>{
+        if(data){
+          agent.add(data);
+        }
+      });
 }
 
 module.exports = contactUs;
