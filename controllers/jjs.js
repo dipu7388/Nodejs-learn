@@ -1,64 +1,116 @@
+/* eslint-disable no-use-before-define */
 
 
+const http = require('https');
+const request = require('request');
+const functions = require('firebase-functions'); // Cloud Functions for Firebase library
+const { WebhookClient } = require('dialogflow-fulfillment');
+const { Card, Suggestion } = require('dialogflow-fulfillment');
 
-// See https://github.com/dialogflow/dialogflow-fulfillment-nodejs
-// for Dialogflow fulfillment library docs, samples, and to report issues
-'use strict';
- 
-const functions = require('firebase-functions');
-const {WebhookClient} = require('dialogflow-fulfillment');
-const {Card, Suggestion} = require('dialogflow-fulfillment');
- 
-process.env.DEBUG = 'dialogflow:debug'; // enables lib debugging statements
- 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response) => {
   const agent = new WebhookClient({ request, response });
-  console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
-  console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
- 
-  function welcome(agent) {
-    agent.add(`Welcome to my agent!`);
+  console.log(`Dialogflow Request headers: ${JSON.stringify(request.headers)}`);
+  console.log(`Dialogflow Request body: ${JSON.stringify(request.body)}`);
+
+  console.log('BODY');
+  const { action } = request.body.queryResult;
+  response.setHeader('Content-Type', 'application/json');
+
+  if (action !== 'input.contact') {
+    response.send(buildChatResponse(`I'm sorry, I don't know this${action}`));
+    return;
   }
- 
-  function fallback(agent) {
-    agent.add(`I didn't understand`);
-    agent.add(`I'm sorry, can you try again?`);
-  }
 
-  // // Uncomment and edit to make your own intent handler
-  // // uncomment `intentMap.set('your intent name here', yourFunctionHandler);`
-  // // below to get this function to be run when a Dialogflow intent is matched
-  // function yourFunctionHandler(agent) {
-  //   agent.add(`This message is from Dialogflow's Cloud Functions for Firebase editor!`);
-  //   agent.add(new Card({
-  //       title: `Title: this is a card title`,
-  //       imageUrl: 'https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png',
-  //       text: `This is the body text of a card.  You can even use line\n  breaks and emoji! 💁`,
-  //       buttonText: 'This is a button',
-  //       buttonUrl: 'https://assistant.google.com/'
-  //     })
-  //   );
-  //   agent.add(new Suggestion(`Quick Reply`));
-  //   agent.add(new Suggestion(`Suggestion`));
-  //   agent.setContext({ name: 'weather', lifespan: 2, parameters: { city: 'Rome' }});
-  // }
+  const { parameters } = request.body.queryResult;
 
-  // // Uncomment and edit to make your own Google Assistant intent handler
-  // // uncomment `intentMap.set('your intent name here', googleAssistantHandler);`
-  // // below to get this function to be run when a Dialogflow intent is matched
-  // function googleAssistantHandler(agent) {
-  //   let conv = agent.conv(); // Get Actions on Google library conv instance
-  //   conv.ask('Hello from the Actions on Google client library!') // Use Actions on Google library
-  //   agent.add(conv); // Add Actions on Google library responses to your agent's response
-  // }
-  // // See https://github.com/dialogflow/dialogflow-fulfillment-nodejs/tree/master/samples/actions-on-google
-  // // for a complete Dialogflow fulfillment library Actions on Google client library v2 integration sample
-
-  // Run the proper function handler based on the matched Dialogflow intent name
-  let intentMap = new Map();
-  intentMap.set('Default Welcome Intent', welcome);
-  intentMap.set('Default Fallback Intent', fallback);
-  // intentMap.set('your intent name here', yourFunctionHandler);
-  // intentMap.set('your intent name here', googleAssistantHandler);
-  agent.handleRequest(intentMap);
+  const enquiryModel = {};
+  enquiryModel.companyId = '3';
+  enquiryModel.personName = parameters['given-name'];
+  enquiryModel.eamilAddress = parameters.email;
+  enquiryModel.contactNumber = parameters['phone-number'];
+  enquiryModel.enquiryType = 2;
+  submitEnquery(enquiryModel, response);
 });
+
+
+function submitEnquery(enquiryModel, cloudFnResponse) {
+  console.log(`Company enquery Model: ${JSON.stringify(enquiryModel)}`);
+
+  const options = {
+    method: 'POST',
+    url: 'https://service.lsnetx.com/add/enquiry',
+    headers:
+    {
+      'cache-control': 'no-cache',
+      Connection: 'keep-alive',
+      'Accept-Encoding': 'gzip, deflate',
+      Host: 'service.lsnetx.com',
+      'Cache-Control': 'no-cache',
+      Accept: '*/*',
+      'Content-Type': 'application/json'
+    },
+    body:
+    {
+      companyId: '3',
+      contactNumber: 9898989898,
+      emailAddress: 'aaaa7388@gmail.com',
+      enquiryType: 3,
+      feedback: 'hiii this',
+      personName: 'TEst'
+    },
+    json: true
+  };
+  request(options, (error, response, body) => {
+    if (error) {
+      const chat = `Error${error}`;
+      cloudFnResponse.send(buildChatResponse(chat));
+    }
+
+    console.log(JSON.stringify(response));
+    const chat = 'Your request seccessfully sent to our experts';
+    cloudFnResponse.send(buildChatResponse(chat));
+  });
+  //  let req = http.request(options, (res) => {
+  //     var chunks = [];
+
+  //     res.on("data", function (chunk) {
+  //       chunks.push(chunk);
+  //     });
+
+  //     res.on("end", function () {
+  //       var body = Buffer.concat(chunks);
+  //       console.log(body.toString());
+  //     });
+  //   });
+
+  //   req.write(JSON.stringify({
+  //    companyId: '3',
+  //     contactNumber: 9898989898,
+  //     emailAddress: 'aaaa7388@gmail.com',
+  //     enquiryType: 3,
+  //     feedback: 'hiii this',
+  //     personName: 'TEst';
+  //   }));
+  //   req.end();
+
+  //   let req = http.request(options, (res) => {
+  //       var chunks = [];
+  //       res.on("data", function (chunk) {
+  //         console.log("Received json response: " + chunk);
+  //         chunks.push(chunk);
+  //       });
+  //       res.on("end", function () {
+  //         var body = Buffer.concat(chunks);
+  //         console.log(body.toString());
+  //         var chat="Your request seccessfully sent to our experts";
+  //         cloudFnResponse.send(buildChatResponse(chat));
+  //       });
+  //     });
+
+//   req.write(JSON.stringify(enquiryModel));
+//   req.end();
+}
+
+function buildChatResponse(chat) {
+  return JSON.stringify({ speech: chat, displayText: chat });
+}

@@ -1,5 +1,6 @@
 // const buildChatResponse=require("../controllers/dialogController");
 const {dialogController } = require('../controllers/dialogController');
+const request = require('request');
 function submitEnquery(enquiryModel, cloudFnResponse) {
     console.log(`Company enquery Model: ${JSON.stringify(enquiryModel)}`);
   
@@ -15,14 +16,7 @@ function submitEnquery(enquiryModel, cloudFnResponse) {
         Accept: '*/*',
         'Content-Type': 'application/json'
       },
-      body: {
-        companyId: '3',
-        contactNumber: 9898989898,
-        emailAddress: 'aaaa7388@gmail.com',
-        enquiryType: 3,
-        feedback: 'hiii this',
-        personName: 'TEst'
-      },
+      body: enquiryModel,
       json: true
     };
     request(options, (error, response, body) => {
