@@ -31,7 +31,7 @@ function submitEnquery(enquiryModel, cloudFnResponse) {
       enquiryModel.eamilAddress = agent.parameters.email;
       enquiryModel.contactNumber = agent.parameters['phone-number'];
       enquiryModel.enquiryType = 2;
-      agent.add("sdh")
+      // agent.add("sdh");
       submitEnquery(enquiryModel, agent).then(data=>{
         console.log("Resolve Contact US",data );
         if(data){
