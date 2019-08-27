@@ -4,5 +4,5 @@ const {
     Image
   } = require('dialogflow-fulfillment');
     module.exports = function (agent) {
-      agent.setFollowupEvent("contactus");
+      agent.add("contactus");
      };
