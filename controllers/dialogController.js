@@ -40,6 +40,7 @@ function dialogController(Dialog) {
       intentMap.set("services - yes",triggerConFun );
       intentMap.set("lsnetx.retail - yes",triggerConFun );
       intentMap.set("lsnetx.website - yes",triggerConFun );
+      intentMap.set('Default Fallback Intent', fallbackFun);
       // intentMap.set('', fallBackFu);
       // intentMap.set('your intent name here', googleAssistantHandler);
       agent.handleRequest(intentMap).catch(err=>{
