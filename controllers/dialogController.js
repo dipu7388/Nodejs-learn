@@ -49,11 +49,16 @@ function dialogController(Dialog) {
         
         console.log("Dheeru you got it",agent.consoleMessages);
         agent.add("I don`t Undestand");
+        agent.consoleMessages.forEach(msg=>{
+          console.log(msg instanceof Text);
+          console.log(msg instanceof Suggestion);
+          console.log(msg instanceof Card);
+        })
+        console.log("Function Instantc" ,fallbackFun instanceof Function);
+        
+        agent.handleRequest(fallbackFun)
       }
-      try {
-      } catch (error) {
-        agent.handleRequest(fallbackFun); 
-      }
+
     } catch (error) {
       console.log("ERROR", error);
       

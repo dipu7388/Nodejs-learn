@@ -1,8 +1,12 @@
 const {
     Card,
     Suggestion,
-    Image
+    Image,
+    Text,
+
   } = require('dialogflow-fulfillment');
     module.exports = function (agent) {
-      agent.add("contactus");
-     };
+        
+    };
+
+
