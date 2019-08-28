@@ -19,4 +19,5 @@ module.exports = function (agent) {
       agent.add(new Suggestion(msg));
     }
   })
+  return agent;
 };
