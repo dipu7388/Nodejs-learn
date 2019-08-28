@@ -10,9 +10,9 @@ const testAgent = require("../functions/test.function");
 const contactUs = require("../functions/contactus");
 const initializeFun = require("../functions/initialize");
 const welcomeFun = require("../functions/welcome");
-const serviceFun= require("../functions/service");
-const triggerConFun= require("../functions/trigger-contactus");
-const fallbackFun= require("../functions/fallback");
+const serviceFun = require("../functions/service");
+const triggerConFun = require("../functions/trigger-contactus");
+const fallbackFun = require("../functions/fallback");
 const {
   Card,
   Suggestion,
@@ -32,127 +32,106 @@ function dialogController(Dialog) {
       });
       // const agent=new Object();
       console.log(agent.originalRequest);
-      
+
       let intentMap = new Map();
       intentMap.set('test', testAgent);
       intentMap.set('lsnetx.contact-us', contactUs);
-      intentMap.set('initialize',initializeFun);
+      intentMap.set('initialize', initializeFun);
       intentMap.set('welcome', welcomeFun);
-      intentMap.set('services',serviceFun);
-      intentMap.set("services - yes",triggerConFun );
-      intentMap.set("lsnetx.retail - yes",triggerConFun );
-      intentMap.set("lsnetx.website - yes",triggerConFun );
+      intentMap.set('services', serviceFun);
+      intentMap.set("services - yes", triggerConFun);
+      intentMap.set("lsnetx.retail - yes", triggerConFun);
+      intentMap.set("lsnetx.website - yes", triggerConFun);
       intentMap.set('Default Fallback Intent', fallbackFun);
       // intentMap.set('', fallBackFu);
       // intentMap.set('your intent name here', googleAssistantHandler);
-      if(intentMap.has(agent.intent)){
+      if (intentMap.has(agent.intent)) {
         agent.handleRequest(intentMap);
-      }else{
-        
-        console.log("Dheeru you got it",agent.consoleMessages);
-        agent.add("I don`t Undestand");
-        agent.consoleMessages.forEach(msg=>{
-          console.log(msg instanceof Text);
-          console.log(msg instanceof Suggestion);
-          console.log(msg instanceof Card);
-          console.log(msg);
-          console.log("text",msg['text']);
-          console.log("Text",msg['Text']);
-          if(msg['text']){
-            agent.add(msg['text']);
-          }
-          
-        })
-        console.log("Function Instantc" ,fallbackFun instanceof Function);
-        
+      } else {
+
         agent.handleRequest(fallbackFun)
       }
 
     } catch (error) {
       console.log("ERROR", error);
-      
-      let req={
-   
-    "responseId": "336069a5-2b5a-4ab2-b4cf-972781107632-5e314962",
-    "queryResult": {
-      "queryText": "test",
-      "parameters": {},
-      "allRequiredParamsPresent": true,
-      "fulfillmentMessages": [
-        {
-          "text": {
-            "text": [
-              "I didn't understand"
-            ]
-          }
-        },
-        {
-          "text": {
-            "text": [
-              "I'm sorry, can you try again?"
-            ]
-          }
-        },
-        {
-          "text": {
-            "text": [
-              "This message is from Dialogflow's Cloud Functions for Firebase editor!"
-            ]
-          }
-        },
-        {
-          "card": {
-            "title": "Title: this is a card title",
-            "subtitle": "This is the body text of a card.  You can even use line\n  breaks and emoji! 💁",
-            "imageUri": "https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png",
-            "buttons": [
-              {
-                "text": "This is a button",
-                "postback": "https://assistant.google.com/"
+
+      let req = {
+
+        "responseId": "336069a5-2b5a-4ab2-b4cf-972781107632-5e314962",
+        "queryResult": {
+          "queryText": "test",
+          "parameters": {},
+          "allRequiredParamsPresent": true,
+          "fulfillmentMessages": [{
+              "text": {
+                "text": [
+                  "I didn't understand"
+                ]
               }
-            ]
-          }
+            },
+            {
+              "text": {
+                "text": [
+                  "I'm sorry, can you try again?"
+                ]
+              }
+            },
+            {
+              "text": {
+                "text": [
+                  "This message is from Dialogflow's Cloud Functions for Firebase editor!"
+                ]
+              }
+            },
+            {
+              "card": {
+                "title": "Title: this is a card title",
+                "subtitle": "This is the body text of a card.  You can even use line\n  breaks and emoji! 💁",
+                "imageUri": "https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png",
+                "buttons": [{
+                  "text": "This is a button",
+                  "postback": "https://assistant.google.com/"
+                }]
+              }
+            },
+            {
+              "quickReplies": {
+                "quickReplies": [
+                  "Quick Reply",
+                  "Suggestion"
+                ]
+              }
+            }
+          ],
+          "outputContexts": [{
+            "name": "projects/lsnetx-chatbot-pspxhh/agent/sessions/55d64aed-c682-088a-f676-a7004cfc3e48/contexts/weather",
+            "lifespanCount": 2,
+            "parameters": {
+              "city": "Rome"
+            }
+          }],
+          "intent": {
+            "name": "projects/lsnetx-chatbot-pspxhh/agent/intents/994db840-d37c-416c-b8b7-1963b859a296",
+            "displayName": "test"
+          },
+          "intentDetectionConfidence": 1,
+          "diagnosticInfo": {
+            "webhook_latency_ms": 52
+          },
+          "languageCode": "en"
         },
-        {
-          "quickReplies": {
-            "quickReplies": [
-              "Quick Reply",
-              "Suggestion"
-            ]
-          }
-        }
-      ],
-      "outputContexts": [
-        {
-          "name": "projects/lsnetx-chatbot-pspxhh/agent/sessions/55d64aed-c682-088a-f676-a7004cfc3e48/contexts/weather",
-          "lifespanCount": 2,
-          "parameters": {
-            "city": "Rome"
-          }
-        }
-      ],
-      "intent": {
-        "name": "projects/lsnetx-chatbot-pspxhh/agent/intents/994db840-d37c-416c-b8b7-1963b859a296",
-        "displayName": "test"
-      },
-      "intentDetectionConfidence": 1,
-      "diagnosticInfo": {
-        "webhook_latency_ms": 52
-      },
-      "languageCode": "en"
-    },
-    "webhookStatus": {
-      "message": "Webhook execution successful"
-    },
-    "session": "projects/lsnetx-chatbot-pspxhh/agent/sessions/55d64aed-c682-088a-f676-a7004cfc3e48"
-   };
-   try {
-    request.body=req;
-    let x= request;
-    const agent1 = new WebhookClient({
-      request : x,
-      response : response
-    });
+        "webhookStatus": {
+          "message": "Webhook execution successful"
+        },
+        "session": "projects/lsnetx-chatbot-pspxhh/agent/sessions/55d64aed-c682-088a-f676-a7004cfc3e48"
+      };
+      try {
+        request.body = req;
+        let x = request;
+        const agent1 = new WebhookClient({
+          request: x,
+          response: response
+        });
         let intentMap = new Map();
         intentMap.set('test', testAgent);
         intentMap.set('lsnetx.contact-us', contactUs);
@@ -176,7 +155,7 @@ function dialogController(Dialog) {
 }
 
 
- function buildChatResponse(chat) {
+function buildChatResponse(chat) {
   return JSON.stringify({
     speech: chat,
     displayText: chat
