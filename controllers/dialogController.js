@@ -11,6 +11,7 @@ const initializeFun = require("../functions/initialize");
 const welcomeFun = require("../functions/welcome");
 const serviceFun= require("../functions/service");
 const triggerConFun= require("../functions/trigger-contactus");
+const fallbackFun= require("../functions/fallback");
 const {
   Card,
   Suggestion
@@ -28,6 +29,8 @@ function dialogController(Dialog) {
         response
       });
       // const agent=new Object();
+      console.log(agent.originalRequest);
+      
       let intentMap = new Map();
       intentMap.set('test', testAgent);
       intentMap.set('lsnetx.contact-us', contactUs);
@@ -39,7 +42,9 @@ function dialogController(Dialog) {
       intentMap.set("lsnetx.website - yes",triggerConFun );
       // intentMap.set('', fallBackFu);
       // intentMap.set('your intent name here', googleAssistantHandler);
-      agent.handleRequest(intentMap);
+      agent.handleRequest(intentMap).catch(err=>{
+        fallbackFun(agent);
+      });
     } catch (error) {
       console.log("ERROR", error);
       
