@@ -2,8 +2,8 @@
 const {dialogController } = require('../controllers/dialogController');
 const request = require('request');
 const rp = require('request-promise-native');
+const extractRequest=require("./convertFullfillmentRequest")
 function submitEnquery(enquiryModel, cloudFnResponse) {
-  const extractRequest=require("./convertFullfillmentRequest")
   console.log(`Company enquery Model: ${JSON.stringify(enquiryModel)}`);
   
     const options = {
