@@ -3,7 +3,11 @@
 const request = require('request');
 const http = require('https');
 const {
-  WebhookClient
+  WebhookClient,
+  Text,
+  Card,
+  Suggestion
+
 } = require('dialogflow-fulfillment');
 const testAgent = require("../functions/test.function");
 const contactUs = require("../functions/contactus");
