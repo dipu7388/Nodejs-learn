@@ -43,8 +43,14 @@ function dialogController(Dialog) {
       intentMap.set('Default Fallback Intent', fallbackFun);
       // intentMap.set('', fallBackFu);
       // intentMap.set('your intent name here', googleAssistantHandler);
-      try {
+      if(intentMap.has(agent.intent)){
         agent.handleRequest(intentMap);
+      }else{
+        
+        console.log("Dheeru you got it",agent.consoleMessages);
+        agent.add("I don`t Undestand");
+      }
+      try {
       } catch (error) {
         agent.handleRequest(fallbackFun); 
       }
