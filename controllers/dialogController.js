@@ -43,9 +43,11 @@ function dialogController(Dialog) {
       intentMap.set('Default Fallback Intent', fallbackFun);
       // intentMap.set('', fallBackFu);
       // intentMap.set('your intent name here', googleAssistantHandler);
-      agent.handleRequest(intentMap).catch(err=>{
-        agent.handleRequest(fallbackFun);
-      });
+      try {
+        agent.handleRequest(intentMap);
+      } catch (error) {
+        agent.handleRequest(fallbackFun); 
+      }
     } catch (error) {
       console.log("ERROR", error);
       
