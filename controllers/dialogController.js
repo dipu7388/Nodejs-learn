@@ -34,7 +34,9 @@ function dialogController(Dialog) {
       intentMap.set('initialize',initializeFun);
       intentMap.set('welcome', welcomeFun);
       intentMap.set('services',serviceFun);
-      intentMap.set("trigger-contactus",triggerConFun );
+      intentMap.set("services - yes",triggerConFun );
+      intentMap.set("lsnetx.retail - yes",triggerConFun );
+      intentMap.set("lsnetx.website - yes",triggerConFun );
       // intentMap.set('', fallBackFu);
       // intentMap.set('your intent name here', googleAssistantHandler);
       agent.handleRequest(intentMap);
