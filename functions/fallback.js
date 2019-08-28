@@ -1,6 +1,5 @@
 const extractRequest=require("./convertFullfillmentRequest")
 module.exports=  function fallback(agent) {
     agent= extractRequest(agent);
-    agent.add(`I didn't understand`);
-    agent.add(`I'm sorry, can you try again?`);
+    agent.add(`Webhook called but no handeler assigned for ${agent.intent}`);
   }
