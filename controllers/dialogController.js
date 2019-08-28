@@ -4,9 +4,7 @@ const request = require('request');
 const http = require('https');
 const {
   WebhookClient,
-  Text,
-  Card,
-  Suggestion
+ 
 
 } = require('dialogflow-fulfillment');
 const testAgent = require("../functions/test.function");
@@ -54,9 +52,11 @@ function dialogController(Dialog) {
         console.log("Dheeru you got it",agent.consoleMessages);
         agent.add("I don`t Undestand");
         agent.consoleMessages.forEach(msg=>{
-          console.log(msg instanceof Text);
-          console.log(msg instanceof Suggestion);
-          console.log(msg instanceof Card);
+          // console.log(msg instanceof Text);
+          // console.log(msg instanceof Suggestion);
+          // console.log(msg instanceof Card);
+          console.log(msg);
+          
         })
         console.log("Function Instantc" ,fallbackFun instanceof Function);
         
