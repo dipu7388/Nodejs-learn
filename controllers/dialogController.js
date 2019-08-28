@@ -3,8 +3,7 @@
 const request = require('request');
 const http = require('https');
 const {
-  WebhookClient,
- 
+  WebhookClient
 
 } = require('dialogflow-fulfillment');
 const testAgent = require("../functions/test.function");
@@ -16,7 +15,8 @@ const triggerConFun= require("../functions/trigger-contactus");
 const fallbackFun= require("../functions/fallback");
 const {
   Card,
-  Suggestion
+  Suggestion,
+  Text
 } = require('dialogflow-fulfillment');
 
 function dialogController(Dialog) {
@@ -52,10 +52,15 @@ function dialogController(Dialog) {
         console.log("Dheeru you got it",agent.consoleMessages);
         agent.add("I don`t Undestand");
         agent.consoleMessages.forEach(msg=>{
-          // console.log(msg instanceof Text);
-          // console.log(msg instanceof Suggestion);
-          // console.log(msg instanceof Card);
+          console.log(msg instanceof Text);
+          console.log(msg instanceof Suggestion);
+          console.log(msg instanceof Card);
           console.log(msg);
+          console.log("text",msg['text']);
+          console.log("Text",msg['Text']);
+          if(msg['text']){
+            agent.add(msg['text']);
+          }
           
         })
         console.log("Function Instantc" ,fallbackFun instanceof Function);
