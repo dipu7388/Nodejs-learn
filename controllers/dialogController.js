@@ -39,6 +39,8 @@ function dialogController(Dialog) {
       intentMap.set('initialize', initializeFun);
       intentMap.set('welcome', welcomeFun);
       intentMap.set('services', serviceFun);
+      intentMap.set("lsnetx.retail", serviceFun);
+      intentMap.set("lsnetx.website",serviceFun);
       intentMap.set("services - yes", triggerConFun);
       intentMap.set("lsnetx.retail - yes", triggerConFun);
       intentMap.set("lsnetx.website - yes", triggerConFun);
