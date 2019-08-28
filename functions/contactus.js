@@ -3,7 +3,8 @@ const {dialogController } = require('../controllers/dialogController');
 const request = require('request');
 const rp = require('request-promise-native');
 function submitEnquery(enquiryModel, cloudFnResponse) {
-    console.log(`Company enquery Model: ${JSON.stringify(enquiryModel)}`);
+  const extractRequest=require("./convertFullfillmentRequest")
+  console.log(`Company enquery Model: ${JSON.stringify(enquiryModel)}`);
   
     const options = {
       method: 'POST',
@@ -25,6 +26,7 @@ function submitEnquery(enquiryModel, cloudFnResponse) {
 
 
  function contactUs(agent){
+  agent= extractRequest(agent);
       const enquiryModel = {};
       enquiryModel.companyId = '3';
       enquiryModel.personName = agent.parameters['given-name'];
