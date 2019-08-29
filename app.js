@@ -32,8 +32,8 @@ app.use(cors());
 
 var routes = require('./routes/router'); //importing route
 // routes(app);
-app.use('/api', bookRouter);
-app.use('/apid', dialogRouter);
+// app.use('/api', bookRouter);
+app.use('/api', dialogRouter);
 
 
 app.get('/', (req, res) => {
