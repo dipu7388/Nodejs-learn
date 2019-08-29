@@ -37,7 +37,7 @@ app.use('/api', dialogRouter);
 
 
 app.get('/', (req, res) => {
-  res.send('Welcome to my Nodemon API!');
+  res.send('Welcome to Chat.lsnetx.com');
 });
 
 
